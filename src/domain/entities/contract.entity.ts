@@ -20,4 +20,11 @@ export type ContractEntityProps = {
     contact: string;
     createdAt: Date;
     updatedAt: Date;
+};
+
+export class ContractEntity {
+
+    private constructor(private readonly props: ContractEntityProps) {};
+
+    public static build() {};
 }
