@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route } from "../route.express";
 import { SaveUserInputDto, SaveUserOutputDto, SaveUserUsecase } from "../../../../../usecase/user/save.usecase";
 import { ExceptionError } from "../../../../../package/exception-error/exception.error";
+import { auth } from "../../../../../middlewares/auth.middleware";
 
 
 
@@ -51,7 +52,7 @@ export class SaveUserRoute implements Route {
     };
 
     public getMiddleware?(): (request: Request, response: Response, nextFunction: NextFunction) => Promise<any> {
-        throw new Error("Method not implemented.");
+        return auth();
     };
 
     private present(data: SaveUserOutputDto): SaveUserResponseDto {

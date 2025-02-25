@@ -62,7 +62,7 @@ export class UserRepository implements UserGateway {
         const users = await this.repository.user.findMany({
             where: {
                 ...(search && {
-                    AND: [
+                    OR: [
                         { username: { contains: search, mode: "insensitive" }},
                         { name: { contains: search, mode: "insensitive"} },
                         { lastname: { contains: search, mode: "insensitive" }}
@@ -72,7 +72,7 @@ export class UserRepository implements UserGateway {
         });
 
 
-        if(users.length <= 0) {
+        if(users.length === 0) {
             throw new ExceptionError("Usuários não encontrados", 404);
         };
 

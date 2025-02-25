@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route } from "../route.express";
 import { ListUserInputDto, ListUserOutputDto, ListUserUsecase } from "../../../../../usecase/user/list.usecase";
 import { ExceptionError } from "../../../../../package/exception-error/exception.error";
+import { auth } from "../../../../../middlewares/auth.middleware";
 
 
 export type ListUserResponseDto = {
@@ -57,7 +58,7 @@ export class ListUserRoute implements Route {
     };
 
     public getMiddleware?(): (request: Request, response: Response, nextFunction: NextFunction) => Promise<any> {
-        throw new Error("Method not implemented.");
+        return auth();
     };
 
     private present(data: ListUserOutputDto): ListUserResponseDto {
