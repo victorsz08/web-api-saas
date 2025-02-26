@@ -15,6 +15,7 @@ export type FindContractOutputDto = {
     scheduleTime: string;
     price: number;
     status: StatusType;
+    contact: string;
     userId: string;
     createdAt: Date;
     updatedAt: Date;
@@ -45,6 +46,7 @@ export class FindContractUsecase implements Usecase<FindContractInputDto, FindCo
             price: data.price,
             status: data.status,
             userId: data.userId,
+            contact: data.contact,
             createdAt: data.createdAt,
             updatedAt: data.updatedAt
         };

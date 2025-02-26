@@ -1,46 +1,46 @@
 import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route } from "../route.express";
-import { SaveContractInputDto, SaveContractOutputDto, SaveContractUsecase } from "../../../../../usecase/contract/save.usecase";
+import { UpdateStatusInputDto, UpdateStatusOutputDto, UpdateStatusUsecase } from "../../../../../usecase/contract/update-status.usecase";
+import { StatusType } from "../../../../../domain/entities/contract.entity";
 import { ExceptionError } from "../../../../../package/exception-error/exception.error";
 import { auth } from "../../../../../middlewares/auth.middleware";
 
 
-
-export type SaveContractResponseDto = {
+export type UpdateStatusResponseDto = {
     id: string;
 };
 
-
-export class SaveContractRoute implements Route {
+export class UpdateStatusRoute implements Route {
     
     private constructor(
         private readonly path: string,
         private readonly method: HttpMethod,
-        private readonly saveContractService: SaveContractUsecase
+        private readonly updateStatusService: UpdateStatusUsecase
     ) {};
 
-    public static build(saveContractService: SaveContractUsecase) {
-        return new SaveContractRoute("/contracts", HttpMethod.POST, saveContractService);
+    public static build(updateStatusService: UpdateStatusUsecase) {
+        return new UpdateStatusRoute("/contracts/status/:id", HttpMethod.PUT, updateStatusService);
     };
     
     public getHandler(): (request: Request, response: Response) => Promise<any> {
         return async (request: Request, response: Response) => {
-            const { number, local, scheduleDate, scheduleTime, contact, price, userId } = request.body;
-            const input: SaveContractInputDto = { number, local, scheduleDate, scheduleTime, contact, price, userId };
+            const { id } = request.params;
+            const { status } = request.body as Record<string, StatusType>;
+            const input: UpdateStatusInputDto = { id, status };
 
             try {
-                const data = await this.saveContractService.execute(input);
+                const data = await this.updateStatusService.execute(input);
                 const responseBody = this.present(data);
 
-                return response.status(201).json(responseBody).send();
+                return response.status(200).json(responseBody).send();
             } catch (error) {
                 if(error instanceof ExceptionError) {
                     return response.status(error.statusCode).json({ status: error.statusCode, error: error.message }).send();
                 };
 
                 return response.status(500).json({ status: 500, error: "Server internal error" }).send();
-            }
-        }
+            };
+        };
     };
 
     public getPath(): string {
@@ -55,7 +55,7 @@ export class SaveContractRoute implements Route {
         return auth();
     };
 
-    private present(data: SaveContractOutputDto): SaveContractResponseDto {
+    private present(data: UpdateStatusOutputDto): UpdateStatusResponseDto {
         return {
             id: data.id
         };

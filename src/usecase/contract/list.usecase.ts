@@ -21,6 +21,7 @@ export type ListContractOutputDto = {
         scheduleDate: Date;
         scheduleTime: string;
         price: number;
+        contact: string;
         status: StatusType;
         userId: string;
         createdAt: Date;
@@ -56,6 +57,7 @@ export class ListContractUsecase implements Usecase<ListContractInputDto, ListCo
                     scheduleTime: c.scheduleTime,
                     price: c.price,
                     status: c.status,
+                    contact: c.contact,
                     userId: c.userId,
                     createdAt: c.createdAt,
                     updatedAt: c.updatedAt
