@@ -3,6 +3,7 @@ import { ContractEntity, StatusType } from "../../domain/entities/contract.entit
 import { ContractGateway, ListContractDto, QueryListContract } from "../../domain/gateway/contract.gateway";
 import { ExceptionError } from "../../package/exception-error/exception.error";
 import { DefaultArgs, QueryOptionsCbArgs } from "@prisma/client/runtime/library";
+import { endOfDay, formatISO, startOfDay } from "date-fns";
 
 
 
@@ -82,36 +83,54 @@ export class ContractRepository implements ContractGateway {
     public async list(query: QueryListContract): Promise<ListContractDto> {
         const { userId, page, createdAtDateIn, createdAtDateOut, scheduleDateIn, scheduleDateOut, status } = query;
 
+        const queryCount: Prisma.ContractCountArgs = {
+            where: { User: { id: userId }}
+        };
+
         const queryArgs: Prisma.ContractFindManyArgs = {
             where: {
                 User: { id: userId }
             },
-            take: 10
+            take: 10,
+            orderBy: {
+                installationDate: "desc"
+            }
         };
 
         if(createdAtDateIn && createdAtDateOut) {
             queryArgs.where!.createdAt = {
-                gte: createdAtDateIn,
-                lte: createdAtDateOut
+                gte: formatISO(new Date(createdAtDateIn)),
+                lte: formatISO(new Date(createdAtDateOut))
+            };
+            queryCount.where!.createdAt = {
+                gte: formatISO(new Date(createdAtDateIn)),
+                lte: formatISO(new Date(createdAtDateOut))
             };
         };
 
         if(scheduleDateIn && scheduleDateOut) {
             queryArgs.where!.installationDate = {
-                gte: scheduleDateIn,
-                lte: scheduleDateOut
+                gte: formatISO(new Date(scheduleDateIn)),
+                lte: formatISO(new Date(scheduleDateOut))
+            };
+
+            queryCount.where!.installationDate = {
+                gte: formatISO(new Date(scheduleDateIn)),
+                lte: formatISO(new Date(scheduleDateOut)) 
             };
         };
 
         if(page) {
-            queryArgs.skip = page > 1 ? (page - 1) * 10 : 0; 
+            queryArgs.skip = page > 1 ? (page - 1) * 10 : 0;
         };
 
         if(status) {
-            queryArgs.where!.status = status as Status 
+            queryArgs.where!.status = status as Status;
+            queryCount.where!.status = status as Status;
         };
 
         const contracts = await this.repository.contract.findMany(queryArgs);
+        const countContracts = await this.repository.contract.count(queryCount);
 
         const contractList = contracts.map((c) => {
             return ContractEntity.with({
@@ -129,10 +148,12 @@ export class ContractRepository implements ContractGateway {
             });
         });
 
+        const countPages: number = parseInt((countContracts / 10).toFixed(0));
+
         return {
             contracts: contractList,
-            totalItems: contractList.length,
-            totalPages: parseInt((contractList.length / 10).toFixed(0))
+            totalItems: countContracts,
+            totalPages: (countPages === 0 && countContracts === 0) ? 1 : countPages
         };
     };
 

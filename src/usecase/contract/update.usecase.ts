@@ -7,7 +7,7 @@ export type UpdateContractInputDto = {
     id: string;
     number: number;
     local: string;
-    price: string;
+    price: number;
     contact: string;
 };
 
@@ -27,7 +27,7 @@ export class UpdateContractUsecase implements Usecase<UpdateContractInputDto, Up
         const { id, number, local, price, contact } = input;
         const aContract = await this.contractGateway.find(id);
 
-        await this.contractGateway.update(number, local, price, contact);
+        await this.contractGateway.update(id, number, local, price, contact);
         const output = this.present(aContract);
 
         return output;

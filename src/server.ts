@@ -1,7 +1,8 @@
 import { ApiExpress } from "./infra/api/express/api.express"
+import { contractRoutes } from "./infra/api/express/routes/contracts/contract.express.route";
 import { userRoutes } from "./infra/api/express/routes/user/user.route"
 
-const routes = [...userRoutes];
+const routes = [...userRoutes, ...contractRoutes ];
 
 export function server() {
     const api = ApiExpress.build(routes);
