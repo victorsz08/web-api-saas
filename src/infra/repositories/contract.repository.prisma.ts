@@ -1,7 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient, Status } from "@prisma/client";
 import { ContractEntity, StatusType } from "../../domain/entities/contract.entity";
 import { ContractGateway, ListContractDto, QueryListContract } from "../../domain/gateway/contract.gateway";
 import { ExceptionError } from "../../package/exception-error/exception.error";
+import { DefaultArgs, QueryOptionsCbArgs } from "@prisma/client/runtime/library";
 
 
 
@@ -43,8 +44,8 @@ export class ContractRepository implements ContractGateway {
                 installationHour: scheduleTime,
                 price: price,
                 phone: contact,
-                status: status,
-                products: ["null"],
+                status: status as Status,
+                products: [""],
                 User: {
                     connect: { id: userId }
                 },
@@ -56,22 +57,137 @@ export class ContractRepository implements ContractGateway {
         return;
     };
 
-    find(id: string): Promise<ContractEntity> {
-        throw new Error("Method not implemented.");
-    }
-    list(query: QueryListContract): Promise<ListContractDto> {
-        throw new Error("Method not implemented.");
-    }
-    update(number: number, local: string, price: string, contact: string): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-    updateStatus(id: string, status: StatusType): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-    updateSchedule(id: string, scheduleDate: Date, scheduleTime: string): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-    delete(id: string): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-}
+    public async find(id: string): Promise<ContractEntity> {
+        const contract = await this.repository.contract.findUnique({ where: { id } });
+
+        if(!contract) {
+            throw new ExceptionError("Contrato não encontrado", 404);
+        };
+
+        return ContractEntity.with({
+            id: contract.id,
+            number: contract.number,
+            local: contract.local,
+            scheduleDate: contract.installationDate,
+            scheduleTime: contract.installationHour,
+            price: contract.price,
+            contact: contract.phone,
+            status: contract.status as StatusType,
+            userId: contract.userId,
+            createdAt: contract.createdAt,
+            updatedAt: contract.updatedAt
+        });
+    };
+
+    public async list(query: QueryListContract): Promise<ListContractDto> {
+        const { userId, page, createdAtDateIn, createdAtDateOut, scheduleDateIn, scheduleDateOut, status } = query;
+
+        const queryArgs: Prisma.ContractFindManyArgs = {
+            where: {
+                User: { id: userId }
+            },
+            take: 10
+        };
+
+        if(createdAtDateIn && createdAtDateOut) {
+            queryArgs.where!.createdAt = {
+                gte: createdAtDateIn,
+                lte: createdAtDateOut
+            };
+        };
+
+        if(scheduleDateIn && scheduleDateOut) {
+            queryArgs.where!.installationDate = {
+                gte: scheduleDateIn,
+                lte: scheduleDateOut
+            };
+        };
+
+        if(page) {
+            queryArgs.skip = page > 1 ? (page - 1) * 10 : 0; 
+        };
+
+        if(status) {
+            queryArgs.where!.status = status as Status 
+        };
+
+        const contracts = await this.repository.contract.findMany(queryArgs);
+
+        const contractList = contracts.map((c) => {
+            return ContractEntity.with({
+                id: c.id,
+                number: c.number,
+                local: c.local,
+                scheduleDate: c.installationDate,
+                scheduleTime: c.installationHour,
+                price: c.price,
+                contact: c.phone,
+                userId: c.userId,
+                status: c.status as StatusType,
+                createdAt: c.createdAt,
+                updatedAt: c.updatedAt
+            });
+        });
+
+        return {
+            contracts: contractList,
+            totalItems: contractList.length,
+            totalPages: parseInt((contractList.length / 10).toFixed(0))
+        };
+    };
+
+    public async update(id: string, number: number, local: string, price: number, contact: string): Promise<void> {
+        await this.find(id);
+
+        await this.repository.contract.update({
+            where: { id },
+            data: {
+                number: number,
+                local: local,
+                price: price,
+                phone: contact
+            }
+        });
+
+        return;
+    };
+
+
+    public async updateStatus(id: string, status: StatusType): Promise<void> {
+        await this.find(id);
+
+        await this.repository.contract.update({
+            where: { id },
+            data: {
+                status: status as Status
+            }
+        });
+
+        return;
+    };
+
+
+    public async updateSchedule(id: string, scheduleDate: Date, scheduleTime: string): Promise<void> {
+        await this.find(id);
+
+        await this.repository.contract.update({
+            where: { id },
+            data: {
+                installationDate: scheduleDate,
+                installationHour: scheduleTime
+            }
+        });
+
+        return;
+    };
+
+    public async delete(id: string): Promise<void> {
+        await this.find(id);
+
+        await this.repository.contract.delete({
+            where: { id }
+        });
+
+        return;
+    };
+};

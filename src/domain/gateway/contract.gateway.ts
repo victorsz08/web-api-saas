@@ -20,7 +20,7 @@ export interface ContractGateway {
     save(contract: ContractEntity): Promise<void>;
     find(id: string): Promise<ContractEntity>;
     list(query: QueryListContract): Promise<ListContractDto>;
-    update(number: number, local: string, price: string, contact: string): Promise<void>;
+    update(id: string, number: number, local: string, price: number, contact: string): Promise<void>;
     updateStatus(id: string, status: StatusType): Promise<void>;
     updateSchedule(id: string, scheduleDate: Date, scheduleTime: string): Promise<void>;
     delete(id: string): Promise<void>;
