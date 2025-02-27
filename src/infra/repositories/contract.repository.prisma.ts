@@ -2,7 +2,7 @@ import { Prisma, PrismaClient, Status } from "@prisma/client";
 import { ContractEntity, StatusType } from "../../domain/entities/contract.entity";
 import { ContractGateway, ListContractDto, QueryListContract } from "../../domain/gateway/contract.gateway";
 import { ExceptionError } from "../../package/exception-error/exception.error";
-import { endOfDay, formatISO, startOfDay } from "date-fns";
+import { endOfDay, formatISO, startOfDay, addDays } from "date-fns";
 
 
 
@@ -98,24 +98,24 @@ export class ContractRepository implements ContractGateway {
 
         if(createdAtDateIn && createdAtDateOut) {
             queryArgs.where!.createdAt = {
-                gte: formatISO(new Date(createdAtDateIn)),
-                lte: formatISO(new Date(createdAtDateOut))
+                gte: addDays(startOfDay(createdAtDateIn).toISOString(), 1),
+                lte: addDays(endOfDay(createdAtDateOut).toISOString(), 1)
             };
             queryCount.where!.createdAt = {
-                gte: formatISO(new Date(createdAtDateIn)),
-                lte: formatISO(new Date(createdAtDateOut))
+                gte: addDays(startOfDay(createdAtDateIn).toISOString(), 1),
+                lte: addDays(endOfDay(createdAtDateOut).toISOString(), 1)
             };
         };
 
         if(scheduleDateIn && scheduleDateOut) {
             queryArgs.where!.installationDate = {
-                gte: formatISO(new Date(scheduleDateIn)),
-                lte: formatISO(new Date(scheduleDateOut))
+                gte: addDays(startOfDay(scheduleDateIn).toISOString(), 1),
+                lte: addDays(endOfDay(scheduleDateOut).toISOString(), 1)
             };
 
             queryCount.where!.installationDate = {
-                gte: formatISO(new Date(scheduleDateIn)),
-                lte: formatISO(new Date(scheduleDateOut)) 
+                gte: addDays(startOfDay(scheduleDateIn).toISOString(), 1),
+                lte: addDays(endOfDay(scheduleDateOut).toISOString(), 1)
             };
         };
 
