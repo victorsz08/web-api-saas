@@ -40,7 +40,7 @@ export class ContractRepository implements ContractGateway {
                 id: id,
                 number: number,
                 local: local,
-                installationDate: startOfDay(scheduleDate),
+                installationDate: startOfDay(scheduleDate).toISOString(),
                 installationHour: scheduleTime,
                 price: price,
                 phone: contact,
@@ -49,8 +49,8 @@ export class ContractRepository implements ContractGateway {
                 User: {
                     connect: { id: userId }
                 },
-                createdAt: createdAt,
-                updatedAt: updatedAt
+                createdAt: startOfDay(createdAt).toISOString(),
+                updatedAt: startOfDay(updatedAt).toISOString()
             }
         });
 
@@ -165,7 +165,8 @@ export class ContractRepository implements ContractGateway {
                 number: number,
                 local: local,
                 price: price,
-                phone: contact
+                phone: contact,
+                updatedAt: startOfDay(new Date()).toISOString()
             }
         });
 
@@ -179,7 +180,8 @@ export class ContractRepository implements ContractGateway {
         await this.repository.contract.update({
             where: { id },
             data: {
-                status: status as Status
+                status: status as Status,
+                updatedAt: startOfDay(new Date()).toISOString()
             }
         });
 
@@ -194,7 +196,8 @@ export class ContractRepository implements ContractGateway {
             where: { id },
             data: {
                 installationDate: scheduleDate,
-                installationHour: scheduleTime
+                installationHour: scheduleTime,
+                updatedAt: startOfDay(new Date()).toISOString()
             }
         });
 

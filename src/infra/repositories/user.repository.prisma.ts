@@ -3,6 +3,7 @@ import { UserEntity } from "../../domain/entities/user.entity";
 import { UserGateway } from "../../domain/gateway/user.gateway";
 import { ExceptionError } from "../../package/exception-error/exception.error";
 import { hash } from "bcryptjs";
+import { startOfDay } from "date-fns";
 
 
 
@@ -30,8 +31,8 @@ export class UserRepository implements UserGateway {
             name: firstName,
             lastname: lastName,
             password: passwordHashed,
-            createdAt: createdAt,
-            updatedAt: updatedAt
+            createdAt: startOfDay(createdAt).toISOString(),
+            updatedAt: startOfDay(updatedAt).toISOString()
         };
 
         await this.repository.user.create({ data });
@@ -104,7 +105,8 @@ export class UserRepository implements UserGateway {
 
         const data = {
             name: firstName,
-            lastname: lastName
+            lastname: lastName,
+            updatedAt: startOfDay(new Date()).toISOString()
         }
 
         await this.repository.user.update({
