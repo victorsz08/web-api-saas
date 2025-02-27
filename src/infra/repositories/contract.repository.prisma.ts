@@ -2,7 +2,7 @@ import { Prisma, PrismaClient, Status } from "@prisma/client";
 import { ContractEntity, StatusType } from "../../domain/entities/contract.entity";
 import { ContractGateway, ListContractDto, QueryListContract } from "../../domain/gateway/contract.gateway";
 import { ExceptionError } from "../../package/exception-error/exception.error";
-import { endOfDay, formatISO, startOfDay } from "date-fns";
+import { endOfDay, formatISO, startOfDay, addDays } from "date-fns";
 
 
 
@@ -40,7 +40,7 @@ export class ContractRepository implements ContractGateway {
                 id: id,
                 number: number,
                 local: local,
-                installationDate: startOfDay(scheduleDate),
+                installationDate: startOfDay(scheduleDate).toISOString(),
                 installationHour: scheduleTime,
                 price: price,
                 phone: contact,
@@ -49,8 +49,8 @@ export class ContractRepository implements ContractGateway {
                 User: {
                     connect: { id: userId }
                 },
-                createdAt: createdAt,
-                updatedAt: updatedAt
+                createdAt: startOfDay(createdAt).toISOString(),
+                updatedAt: startOfDay(updatedAt).toISOString()
             }
         });
 
@@ -98,24 +98,24 @@ export class ContractRepository implements ContractGateway {
 
         if(createdAtDateIn && createdAtDateOut) {
             queryArgs.where!.createdAt = {
-                gte: formatISO(new Date(createdAtDateIn)),
-                lte: formatISO(new Date(createdAtDateOut))
+                gte: addDays(startOfDay(createdAtDateIn).toISOString(), 1),
+                lte: addDays(endOfDay(createdAtDateOut).toISOString(), 1)
             };
             queryCount.where!.createdAt = {
-                gte: formatISO(new Date(createdAtDateIn)),
-                lte: formatISO(new Date(createdAtDateOut))
+                gte: addDays(startOfDay(createdAtDateIn).toISOString(), 1),
+                lte: addDays(endOfDay(createdAtDateOut).toISOString(), 1)
             };
         };
 
         if(scheduleDateIn && scheduleDateOut) {
             queryArgs.where!.installationDate = {
-                gte: formatISO(new Date(scheduleDateIn)),
-                lte: formatISO(new Date(scheduleDateOut))
+                gte: addDays(startOfDay(scheduleDateIn).toISOString(), 1),
+                lte: addDays(endOfDay(scheduleDateOut).toISOString(), 1)
             };
 
             queryCount.where!.installationDate = {
-                gte: formatISO(new Date(scheduleDateIn)),
-                lte: formatISO(new Date(scheduleDateOut)) 
+                gte: addDays(startOfDay(scheduleDateIn).toISOString(), 1),
+                lte: addDays(endOfDay(scheduleDateOut).toISOString(), 1)
             };
         };
 
@@ -165,7 +165,8 @@ export class ContractRepository implements ContractGateway {
                 number: number,
                 local: local,
                 price: price,
-                phone: contact
+                phone: contact,
+                updatedAt: startOfDay(new Date()).toISOString()
             }
         });
 
@@ -179,7 +180,8 @@ export class ContractRepository implements ContractGateway {
         await this.repository.contract.update({
             where: { id },
             data: {
-                status: status as Status
+                status: status as Status,
+                updatedAt: startOfDay(new Date()).toISOString()
             }
         });
 
@@ -194,7 +196,8 @@ export class ContractRepository implements ContractGateway {
             where: { id },
             data: {
                 installationDate: scheduleDate,
-                installationHour: scheduleTime
+                installationHour: scheduleTime,
+                updatedAt: startOfDay(new Date()).toISOString()
             }
         });
 

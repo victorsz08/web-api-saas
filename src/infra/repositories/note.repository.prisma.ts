@@ -27,8 +27,8 @@ export class NoteRepository implements NoteGateway {
                 id: id,
                 text: content,
                 User: { connect: { id: userId }},
-                createdAt: startOfDay(createdAt),
-                updatedAt: startOfDay(updatedAt)
+                createdAt: startOfDay(createdAt).toISOString(),
+                updatedAt: startOfDay(updatedAt).toISOString()
             }
         });
 
@@ -58,12 +58,12 @@ export class NoteRepository implements NoteGateway {
 
         if(startDate && endDate) {
             queryArgs.where!.createdAt = {
-                gte: startOfDay(startDate),
-                lte: endOfDay(endDate)
+                gte: startOfDay(startDate).toISOString(),
+                lte: endOfDay(endDate).toISOString()
             };
             countArgs.where!.createdAt = {
-                gte: startOfDay(startDate),
-                lte: endOfDay(endDate)
+                gte: startOfDay(startDate).toISOString(),
+                lte: endOfDay(endDate).toISOString()
             };
         };
 
