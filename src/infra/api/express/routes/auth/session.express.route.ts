@@ -26,7 +26,7 @@ export class AuthSessionRoute implements Route {
 
     public getHandler(): (request: Request, response: Response) => Promise<any> {
         return async (request: Request, response: Response) => {
-            const { token } = request.headers.authorization as any;
+            const token = request.headers.authorization as any;
             const input: AuthSessionInputDto = { token };
 
             try {
