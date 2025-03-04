@@ -1,7 +1,7 @@
 
 
 
-export type BusinessReportProps = {
+export type ReportEntityProps = {
     revenue: number; 
     sales: number;
     installed: number;
@@ -11,12 +11,12 @@ export type BusinessReportProps = {
     cancellationRate: number;
 };
 
-export class BusinessReport {
+export class ReportEntity {
 
-    private constructor(private readonly props: BusinessReportProps) {};
+    private constructor(private readonly props: ReportEntityProps) {};
 
-    public static with(props: BusinessReportProps) {
-        return new BusinessReport(props);
+    public static with(props: ReportEntityProps) {
+        return new ReportEntity(props);
     };
 
     public get revenue() {

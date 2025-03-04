@@ -32,7 +32,7 @@ export class ApiExpress implements Api {
             const handler = route.getHandler();
             const middlewares = route.getMiddleware?.() || [];
 
-            this.app[method](path, middlewares, handler);
+            this.app[method](path, ...middlewares, handler);
         });
     };
 
