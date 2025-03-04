@@ -25,14 +25,6 @@ model Contract {
   user             User          @relation(fields: [userId], references: [id])
 }
 
-model Countries {
-  id        Int      @id @unique
-  country   String
-  uf        String
-  createdAt DateTime 
-  updatedAt DateTime
-}
-
 model Notes {
   id        String   @id
   text      String
@@ -52,4 +44,24 @@ model User {
   updatedAt    DateTime
   contract     Contract[]
   notes        Notes[]
+  userRoles UserRoles[]
+}
+
+model Role {
+  id String @id
+  name String 
+  description String
+  createdAt DateTime
+  updatedAt DateTime
+
+  userRoles UserRoles[]
+}
+
+model UserRoles {
+  user User @relation(fields: [userId], references: [id])
+  userId String @unique
+  role Role @relation(fields: [roleId], references: [id])
+  roleId String @unique
+
+  @@id([userId, roleId])
 }

@@ -3,7 +3,6 @@ import express, { Express } from "express";
 import { Route } from "./routes/route.express";
 
 
-
 export class ApiExpress implements Api {
     private app: Express
 
