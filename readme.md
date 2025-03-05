@@ -1,13 +1,13 @@
-# 🚀 **Notetools API Rest**
+# **Notetools API** 🚀
 
-**Api Rest** desenvolvida utilizando **Typescrip, Node e Express** com Node.js para uma equipe de operadores de vendas, com intuito de melhorar metas e gestão de contratos realizados, para que possa acompanhar desde sua criação a conclusão de intalação do serviço.
+**Api Rest** desenvolvida utilizando **Typescript, Node.js e Express** com Node.js para uma equipe de operadores de vendas, com intuito de melhorar metas e gestão de contratos realizados, para que possa acompanhar desde sua criação a conclusão de intalação do serviço.
 
 Projeto desenvolvido utilizando de arquitura MVC.
 
-##### Desenvolvido por **Victor Siqueira** | [Meu Linkedin](https://www.linkedin.com/in/victorsiqueiradeveloper)
+##### Desenvolvido por **Victor Siqueira** 💡 | [Meu Linkedin](https://www.linkedin.com/in/victorsiqueiradeveloper) 📥
 
 --------
-### 📋 Dependências
+### Requisitos de instalação 📄
 
 
 - **Node.js** >=20.17
@@ -18,9 +18,9 @@ Projeto desenvolvido utilizando de arquitura MVC.
 
 -----
 
-### Instalação
+### Instalação 📑
 
-Todos os passos para baixar e instalar todos os pacotes com npm.
+>Todos os passos para baixar e instalar todos os pacotes com npm.
 
 ```sh
 # Clonar repositório
@@ -33,9 +33,9 @@ cd web-api-saas
 npm install
 ```
 
-### Execução
+### Execução ✅
 
-Apos instalação das dependências do projeto, aqui está o comando para iniciar o server.
+>Apos instalação das dependências do projeto, aqui está o comando para iniciar o server.
 
 ```sh
 # Comando para rodar o projeto em ambiente de desenvolvimento.
@@ -50,9 +50,9 @@ npm run build
 npm run start
 ```
 
-------
+----------------
 
-### Middlewares
+### Middlewares 🔐
 
 ##### Middleware de autenticação
 
@@ -64,7 +64,7 @@ npm run start
 ```
 -----
 
-### Estrutura de pastas
+### Conteúdo de pastas 📚
 
 | DIRETÓRIO | CONTEÚDO |
 |-------|----------|
@@ -80,9 +80,9 @@ npm run start
 
 -------------
 
-### Errors
+### Errors 🚫
 
-##### Codigos de erros
+>##### Todos erros encontrados na aplicação.
 
 
 | STATUS CODE | ERRORS |
@@ -92,5 +92,10 @@ npm run start
 | 409 | Conflito de dados |
 | 400 | Dados incorretos|
 | 500 | Erro interno do servidor |
+
+-----------------
+
+
+LICENSE MIT: [LICENSE.md](./LICENSE.md)
 
 -----------------
