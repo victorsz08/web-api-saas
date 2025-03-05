@@ -14,4 +14,4 @@ export function server() {
     api.start(port);
 };
 
-server()
+server();

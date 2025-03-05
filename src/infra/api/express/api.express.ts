@@ -1,7 +1,8 @@
 import { Api } from "../api";
 import express, { Express } from "express";
 import { Route } from "./routes/route.express";
-
+import helmet from "helmet";
+import cors from "cors";
 
 export class ApiExpress implements Api {
     private app: Express
@@ -10,6 +11,12 @@ export class ApiExpress implements Api {
         this.app = express();
         this.app.use(express.json());
         this.addRoutes(routes);
+        this.app.use(helmet());
+        this.app.use(cors({
+            origin: "*",
+            allowedHeaders: "application/json",
+            methods: ["GET, POST, PUT, DELETE"]
+        }));
     };
     
     public static build(routes: Route[]) {
