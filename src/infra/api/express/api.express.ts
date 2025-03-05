@@ -3,7 +3,6 @@ import express, { Express } from "express";
 import { Route } from "./routes/route.express";
 
 
-
 export class ApiExpress implements Api {
     private app: Express
 
@@ -32,7 +31,7 @@ export class ApiExpress implements Api {
             const handler = route.getHandler();
             const middlewares = route.getMiddleware?.() || [];
 
-            this.app[method](path, middlewares, handler);
+            this.app[method](path, ...middlewares, handler);
         });
     };
 

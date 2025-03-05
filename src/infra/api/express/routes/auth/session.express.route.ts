@@ -1,45 +1,47 @@
 import { Request, Response, NextFunction } from "express";
 import { HttpMethod, Route } from "../route.express";
-import { SaveNoteInputDto, SaveNoteOutputDto, SaveNoteUsecase } from "../../../../../usecase/note/save.usecase";
+import { AuthSessionInputDto, AuthSessionOutputDto, AuthSessionUsecase } from "../../../../../usecase/auth/session.usecase";
 import { ExceptionError } from "../../../../../package/exception-error/exception.error";
 import { auth } from "../../../../../middlewares/auth.middleware";
 
 
-export type SaveNoteResponseDto = {
+export type AuthSessionResponseDto = {
     id: string;
+    username: string;
+    firstName: string;
+    lastName: string;
 };
 
+export class AuthSessionRoute implements Route {
 
-export class SaveNoteRoute implements Route {
-    
     private constructor(
         private readonly path: string,
         private readonly method: HttpMethod,
-        private readonly saveNoteService: SaveNoteUsecase
+        private readonly authSessionService: AuthSessionUsecase
     ) {};
 
-    public static build(saveNoteService: SaveNoteUsecase) {
-        return new SaveNoteRoute("/notes", HttpMethod.POST, saveNoteService);
+    public static build(authSessionService: AuthSessionUsecase) {
+        return new AuthSessionRoute("/auth/session", HttpMethod.GET, authSessionService);
     };
 
     public getHandler(): (request: Request, response: Response) => Promise<any> {
         return async (request: Request, response: Response) => {
-            const { content, userId } = request.body;
-            const input: SaveNoteInputDto = { content, userId };
+            const token = request.headers.authorization as any;
+            const input: AuthSessionInputDto = { token };
 
             try {
-                const data = await this.saveNoteService.execute(input);
+                const data = await this.authSessionService.execute(input);
                 const responseBody = this.present(data);
 
-                return response.status(201).json(responseBody).send();
+                return response.status(200).json(responseBody).send();
             } catch (error) {
                 if(error instanceof ExceptionError) {
                     return response.status(error.statusCode).json({ status: error.statusCode, error: error.message }).send();
                 };
 
                 return response.status(500).json({ status: 500, error: "server internal error" }).send();
-            };
-        };
+            }
+        }
     };
 
     public getPath(): string {
@@ -54,9 +56,12 @@ export class SaveNoteRoute implements Route {
         return [ auth() ]
     };
 
-    private present(data: SaveNoteOutputDto): SaveNoteResponseDto {
+    private present(data: AuthSessionOutputDto): AuthSessionResponseDto {
         return {
-            id: data.id
+            id: data.id,
+            username: data.username,
+            firstName: data.firstName,
+            lastName: data.lastName
         };
     };
 };

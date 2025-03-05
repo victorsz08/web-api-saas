@@ -50,9 +50,9 @@ export class SaveContractRoute implements Route {
     public getMethod(): HttpMethod {
         return this.method;
     };
-
-    public getMiddleware?(): (request: Request, response: Response, nextFunction: NextFunction) => Promise<any> {
-        return auth();
+    
+    public getMiddleware?(): Array<any> {
+        return [ auth() ]
     };
 
     private present(data: SaveContractOutputDto): SaveContractResponseDto {

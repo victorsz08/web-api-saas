@@ -15,5 +15,5 @@ export interface Route {
     getHandler(): (request: Request, response: Response) => Promise<any>;
     getPath(): string;
     getMethod(): HttpMethod;
-    getMiddleware?(): (request: Request, response: Response, nextFunction: NextFunction) => Promise<any>; 
+    getMiddleware?(): Array<any>; 
 };

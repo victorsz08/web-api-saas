@@ -57,11 +57,12 @@ export class FindContractRoute implements Route {
         return this.path;
     };
 
-    getMethod(): HttpMethod {
+    public getMethod(): HttpMethod {
         return this.method;
     }
-    getMiddleware?(): (request: Request, response: Response, nextFunction: NextFunction) => Promise<any> {
-        return auth()
+
+    public getMiddleware?(): Array<any> {
+        return [ auth() ]
     };
 
     private present(data: FindContractOutputDto): FindContractResponseDto {
