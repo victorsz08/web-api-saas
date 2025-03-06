@@ -7,27 +7,23 @@
 
 
 ## Requisitos de instalação 📄
-
 - [Node.js](https://nodejs.org/pt) (>=20.17)
 - [Typescript](https://www.typescriptlang.org/download/) (>=5.7) 
 
 
 ## Clonar Projeto 📑
-
 ```sh
 # Clone repository
 git clone (https://github.com/victorsz08/web-api-saas)
 ```
 
 ### Instalação
-
 ```sh
 # Instalar todas as dependências do projeto
 npm install 
 ```
 
 ## Execução ✅
-
 
 ```sh
 # Comando para rodar o projeto em ambiente de desenvolvimento.
@@ -52,7 +48,7 @@ npm run start
 ```
 # Estrutura de pastas
 
-
+`
     ├──📂dist
     ├──📂node_modules
     ├──📂src 
@@ -91,7 +87,7 @@ npm run start
     ├──📄package.json
     ├──📄README.md
     └──📄tsconfig.json
-
+`
 # Rotas da API
 
 *Documentação de rotas com Swagger - Acessando a rota*
