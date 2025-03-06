@@ -1,5 +1,5 @@
 # **API Restfull Node.js, Typescript, Express e Postgrees** 🚀
-------------------
+
 **Api Rest** desenvolvida utilizando **Typescript, Node.js e Express** para uma equipe de operadores de vendas, com intuito de melhorar metas e gestão de contratos realizados, para que possa acompanhar desde sua criação a conclusão de intalação do serviço.
 
 
@@ -7,29 +7,23 @@
 
 
 ## Requisitos de instalação 📄
-----------
-
 - [Node.js](https://nodejs.org/pt) (>=20.17)
 - [Typescript](https://www.typescriptlang.org/download/) (>=5.7) 
 
 
-### Clonar Projeto 📑
-------------------
+## Clonar Projeto 📑
 ```sh
 # Clone repository
 git clone (https://github.com/victorsz08/web-api-saas)
 ```
 
 ### Instalação
----------
-
 ```sh
 # Instalar todas as dependências do projeto
 npm install 
 ```
 
-### Execução ✅
----------------
+## Execução ✅
 
 ```sh
 # Comando para rodar o projeto em ambiente de desenvolvimento.
@@ -46,16 +40,15 @@ npm run start
 
 ## Autenticação 🔐
 >*Autenticação utilizando do Token JWT.*
-----------
+
 
 ```
     Authorization:
     Bearer <token>
 ```
 # Estrutura de pastas
---------
 
-
+`
     ├──📂dist
     ├──📂node_modules
     ├──📂src 
@@ -94,7 +87,7 @@ npm run start
     ├──📄package.json
     ├──📄README.md
     └──📄tsconfig.json
-
+`
 # Rotas da API
 
 *Documentação de rotas com Swagger - Acessando a rota*
@@ -103,8 +96,8 @@ npm run start
 > *Rota de documentação de end points* http://localhost:3000/docs/ 
 
 
-### License MIT
---------
+## License MIT
+
 LICENSE MIT: [LICENSE.md](./LICENSE.md)
 
 -----------------
