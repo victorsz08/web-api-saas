@@ -1,6 +1,6 @@
-
+import "dotenv/config";
 
 
 export const jsonSecret = {
-    secret: "123456789"
+    secret: process.env.SECRET || ""
 }

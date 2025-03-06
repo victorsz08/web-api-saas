@@ -3,6 +3,8 @@ import express, { Express } from "express";
 import { Route } from "./routes/route.express";
 import helmet from "helmet";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express"
+import swaggerDocs from "../../../docs/swagger.json";
 
 export class ApiExpress implements Api {
     private app: Express
@@ -10,6 +12,7 @@ export class ApiExpress implements Api {
     private constructor(routes: Route[]) {
         this.app = express();
         this.app.use(express.json());
+        this.app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs))
         this.addRoutes(routes);
         this.app.use(helmet());
         this.app.use(cors({
