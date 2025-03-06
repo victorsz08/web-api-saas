@@ -48,7 +48,7 @@ npm run start
 ```
 # Estrutura de pastas
 
-`
+```
     ├──📂dist
     ├──📂node_modules
     ├──📂src 
@@ -87,7 +87,7 @@ npm run start
     ├──📄package.json
     ├──📄README.md
     └──📄tsconfig.json
-`
+```
 # Rotas da API
 
 *Documentação de rotas com Swagger - Acessando a rota*
