@@ -25,40 +25,32 @@
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/User"
-                            },
-                            "examples": {
-                                "user": {
-                                    "value": {
-                                        "username" : "walter.white",
-                                        "firstName": "Walter",
-                                        "lastName": "White",
-                                        "password": "ww123456"
-                                    }
-                                }
                             } 
                         }
                     }
                 },
                 "responses": {
-                    "401": {
-                        "description": "Usuário não autorizado"
-                    },
-                    "409": {
-                        "description": "Username indisponível"
-                    },
                     "201": {
                         "description": "OK",
                         "content": {
-                            "schema": {
-                                "type": "object",
-                                "items": {
-                                    "id": {
-                                        "type": "string"
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        }
                                     }
                                 }
                             }
                         }
+                    },
+                    "409": {
+                        "description": "Username indisponível"
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
                     }
+
                 }
             },
             "get": {
@@ -132,7 +124,339 @@
                         "description":"Usuário não autorizado"
                     }
                 }
+            },
+            "put": {
+                "summary": "Atualizar os dados do usuário",
+                "tags": ["Usuários"],
+                "security": [{ "BearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "A busca é feito por id único do usuário",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            },
+                            "examples": {
+                                "user": {
+                                    "value": {
+                                        "username" : "walter.white",
+                                        "firstName": "Walter",
+                                        "lastName": "White"
+                                    }
+                                }
+                            } 
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "id": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum usuário encontrado"
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    },
+                    "409": {
+                        "description": "Username indisponível"
+                    }
+                }
             }
+        },
+        "/contracts": {
+            "post": {
+                "summary": "Criação de registro de contratos",
+                "tags": ["Contracts"],
+                "security": [{ "bearerAuth": [] }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Contract"
+                            },
+                            "examples": {
+                                "contract": {
+                                    "value": {
+                                        "number": "0000000",
+                                        "local": "São Paulo / SP",
+                                        "scheduleDate": "2025-01-01",
+                                        "scheduleTime": "08h as 12h",
+                                        "price": "99.99",
+                                        "contact": "(88) 88888-8888",
+                                        "userId": "000001"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type":"object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }   
+                            }
+                        }
+                    },
+                    "401": {
+                        "description":"Usuário não autorizado"
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Busca de todos contratos relacionados a um usuário",
+                "security": [ { "bearerAuth": [] }],
+                "tags": ["Contracts"],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "Busca os contratos por esse usuário",
+                        "required": true
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Paginação dos resultados",
+                        "required": true
+                    },
+                    {
+                        "name": "createdAtDateIn",
+                        "in": "query",
+                        "description": "Filtro de busca com intervalos da data de criação do contrato",
+                        "required": false
+                    },
+                    {
+                        "name": "createdAtDateOut",
+                        "in": "query",
+                        "description": "Filtro de busca com intervalos da data de criação do contrato",
+                        "required": false
+                    },
+                    {
+                        "name": "scheduleDateIn",
+                        "in": "query",
+                        "description":"Filtro de busca com intervalos da data de agendamento do contrato",
+                        "required": false
+                    },
+                    {
+                        "name": "scheduleDateOut",
+                        "in": "query",
+                        "description":"Filtro de busca feita com intervalos da data de agendamento do contrato",
+                        "required": false
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filtro de busca pelo status do contrato",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content":{
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "contracts": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Contract"
+                                            }
+                                        },
+                                        "totalItems": {
+                                            "type": "integer"
+                                        },
+                                        "totalPages": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum contrato encontrado com esses parametros"
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    }
+                }
+            }
+        },
+        "/contracts/{id}": {
+            "get": {
+                "summary": "Busca feita para encontrar contrato por id",
+                "tags": ["Contracts"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do contrato",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Contract"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Contrato não encontrado"
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Atualizar dados do contrato",
+                "tags": ["Contracts"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do contrato",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "number": {
+                                        "type": "number"
+                                    },
+                                    "local": {
+                                        "type": "string"
+                                    },
+                                    "contact": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type":"number",
+                                        "format": "float"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "items": {
+                                            "id": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    },
+                    "404": {
+                        "description": "Contrato não encontrado"
+                    }
+                }
+            }
+        },
+        "/contracts/status/{id}": {
+            "put": {
+                "summary": "Alterar status do contrato",
+                "tags": ["Contracts"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do contrato",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Contrato não encontrado"
+                    },
+                    "401": {
+                        "description":"Usuário não autorizado"
+                    }
+                }
+            }
+        },
+        "/contracts/schedule/{id}": {
+            
         }
     },
     "components": {
@@ -163,6 +487,55 @@
                         "type": "string",
                         "format": "date-time"
                     }
+                }
+            },
+            "Contract": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "number": {
+                        "type": "integer"
+                    },
+                    "local": {
+                        "type": "string"
+                    },
+                    "scheduleDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "scheduleTime": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "contact": {
+                        "type": "string"
+                    },
+                    "userId": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "status": "number",
+                    "error": "string"
                 }
             }
         },

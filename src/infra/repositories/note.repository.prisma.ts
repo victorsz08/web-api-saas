@@ -26,7 +26,7 @@ export class NoteRepository implements NoteGateway {
             data: {
                 id: id,
                 text: content,
-                User: { connect: { id: userId }},
+                user: { connect: { id: userId }},
                 createdAt: startOfDay(createdAt).toISOString(),
                 updatedAt: startOfDay(updatedAt).toISOString()
             }
@@ -41,14 +41,14 @@ export class NoteRepository implements NoteGateway {
 
         const countArgs: Prisma.NotesCountArgs = {
             where: {
-                User: {
+                user: {
                     id: userId
                 }
             }
         };
         const queryArgs: Prisma.NotesFindManyArgs = {
             where: {
-                User: {
+                user: {
                     id: userId
                 }
             },
@@ -79,7 +79,7 @@ export class NoteRepository implements NoteGateway {
             return NoteEntity.with({
                 id: n.id,
                 content: n.text,
-                userId: n.user_id,
+                userId: n.userId,
                 createdAt: n.createdAt,
                 updatedAt: n.updatedAt
             });
@@ -103,7 +103,7 @@ export class NoteRepository implements NoteGateway {
         return NoteEntity.with({
             id: note.id,
             content: note.text,
-            userId: note.user_id,
+            userId: note.userId,
             createdAt: note.createdAt,
             updatedAt: note.updatedAt
         });

@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient, Status } from "@prisma/client";
+import { Prisma, PrismaClient  } from "@prisma/client";
 import { ContractEntity, StatusType } from "../../domain/entities/contract.entity";
 import { ContractGateway, ListContractDto, QueryListContract } from "../../domain/gateway/contract.gateway";
 import { ExceptionError } from "../../package/exception-error/exception.error";
@@ -44,9 +44,9 @@ export class ContractRepository implements ContractGateway {
                 installationHour: scheduleTime,
                 price: price,
                 phone: contact,
-                status: status as Status,
+                status: status,
                 products: [""],
-                User: {
+                user: {
                     connect: { id: userId }
                 },
                 createdAt: startOfDay(createdAt).toISOString(),
@@ -83,12 +83,12 @@ export class ContractRepository implements ContractGateway {
         const { userId, page, createdAtDateIn, createdAtDateOut, scheduleDateIn, scheduleDateOut, status } = query;
 
         const queryCount: Prisma.ContractCountArgs = {
-            where: { User: { id: userId }}
+            where: { user: { id: userId }}
         };
 
         const queryArgs: Prisma.ContractFindManyArgs = {
             where: {
-                User: { id: userId }
+                user: { id: userId }
             },
             take: 10,
             orderBy: {
@@ -124,8 +124,8 @@ export class ContractRepository implements ContractGateway {
         };
 
         if(status) {
-            queryArgs.where!.status = status as Status;
-            queryCount.where!.status = status as Status;
+            queryArgs.where!.status = status 
+            queryCount.where!.status = status 
         };
 
         const contracts = await this.repository.contract.findMany(queryArgs);
@@ -180,7 +180,7 @@ export class ContractRepository implements ContractGateway {
         await this.repository.contract.update({
             where: { id },
             data: {
-                status: status as Status,
+                status: status,
                 updatedAt: startOfDay(new Date()).toISOString()
             }
         });
