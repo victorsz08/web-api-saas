@@ -1,41 +1,35 @@
-# **Notetools API** 🚀
+# **API Restfull Node.js, Typescript, Express e Postgrees** 🚀
+------------------
+**Api Rest** desenvolvida utilizando **Typescript, Node.js e Express** para uma equipe de operadores de vendas, com intuito de melhorar metas e gestão de contratos realizados, para que possa acompanhar desde sua criação a conclusão de intalação do serviço.
 
-**Api Rest** desenvolvida utilizando **Typescript, Node.js e Express** com Node.js para uma equipe de operadores de vendas, com intuito de melhorar metas e gestão de contratos realizados, para que possa acompanhar desde sua criação a conclusão de intalação do serviço.
-
-Projeto desenvolvido utilizando de arquitura MVC.
 
 ##### Desenvolvido por **Victor Siqueira** 💡 | [Meu Linkedin](https://www.linkedin.com/in/victorsiqueiradeveloper) 📥
 
---------
-### Requisitos de instalação 📄
+
+## Requisitos de instalação 📄
+----------
+
+- [Node.js](https://nodejs.org/pt) (>=20.17)
+- [Typescript](https://www.typescriptlang.org/download/) (>=5.7) 
 
 
-- **Node.js** >=20.17
-- **Banco de Dados** PostgresSQL.
-- **Prisma** >=6.4
-- **Express** >=4.12
-- Demais dependências listadas no arquivo `package.json`
+### Clonar Projeto 📑
+------------------
+```sh
+# Clone repository
+git clone (https://github.com/victorsz08/web-api-saas)
+```
 
------
-
-### Instalação 📑
-
->Todos os passos para baixar e instalar todos os pacotes com npm.
+### Instalação
+---------
 
 ```sh
-# Clonar repositório
-git clone (https://github.com/victorsz08/web-api-saas)
-
-# Diretório do projeto
-cd web-api-saas
-
 # Instalar todas as dependências do projeto
-npm install
+npm install 
 ```
 
 ### Execução ✅
-
->Apos instalação das dependências do projeto, aqui está o comando para iniciar o server.
+---------------
 
 ```sh
 # Comando para rodar o projeto em ambiente de desenvolvimento.
@@ -50,52 +44,67 @@ npm run build
 npm run start
 ```
 
-----------------
-
-### Middlewares 🔐
-
-##### Middleware de autenticação
-
->Autenticação utilizando do JsonWebToken, com o Bearer Token nos headers das requisições.
+## Autenticação 🔐
+>*Autenticação utilizando do Token JWT.*
+----------
 
 ```
     Authorization:
     Bearer <token>
 ```
------
-
-### Conteúdo de pastas 📚
-
-| DIRETÓRIO | CONTEÚDO |
-|-------|----------|
-| **/src/domain/entities/** | Entitades correpondentes a um tabela no banco de dados. |
-| **/src/domain/gateway/** | Interfaces de metodos para fazer requisições ao banco de bados |
-| **/src/infra/api/express** | Instância da app Express  para inciar o server e mapear rotas |
-| **src/infra/api/routes/** | Todas as instâncias de rotas com express |
-| **/src/middlewares/** | Middlewares de autenticação e autorização |
-| **/src/package/prisma/** | Instância do PrismaClient |
-| **/src/package/exception-error/** | Classe customizada de errors http |
-| **/src/usecase/** | Diretório onde se encontra todas as regras de contratos dos métodos de requisições |
-| **/prisma/** | Todos os esquemas do banco de dados, utilizando prisma |
-
--------------
-
-### Errors 🚫
-
->##### Todos erros encontrados na aplicação.
+# Estrutura de pastas
+--------
 
 
-| STATUS CODE | ERRORS |
-|------|-------|
-| 404 | Não encontrado |
-| 401 | Não Autorizado |
-| 409 | Conflito de dados |
-| 400 | Dados incorretos|
-| 500 | Erro interno do servidor |
+    ├──📂dist
+    ├──📂node_modules
+    ├──📂src 
+    │   ├──📂domain
+    │   │   ├──📂enities
+    │   │   │   └──📄**.entity.ts
+    │   │   │ 
+    │   │   └──📂gateway
+    │   │       └──📄**.gateway.ts
+    │   │   
+    │   ├──📂infra
+    │   │   ├──📂api
+    │   │   │   ├──📄api.ts
+    │   │   │   └──📂express
+    │   │   │       ├──📂routes
+    │   │   │       │   ├──📂**
+    │   │   │       │   │   └──📄**.express.route.ts
+    │   │   │       │   └──📄route.express.ts
+    │   │   │       └──📄api.express.ts
+    │   │   └──📂repositories
+    │   │       └──📄**.repository.prisma.ts
+    │   ├──📂middlewares
+    │   │   └──📄**.middleware.ts
+    │   ├──📂package
+    │   │   ├──📂prisma   
+    │   │   │   └──📄prisma.ts
+    │   │   └──📂exception-error
+    │   │       └──📄exception.error.ts
+    │   ├──📂usecase
+    │   │   ├──📂***
+    │   │   │   └──📄**.usecase.ts
+    │   │   └──📄usecase.ts
+    │   └──📄server.ts
+    ├──📄LICENSE.md
+    ├──📄package-lock.json
+    ├──📄package.json
+    ├──📄README.md
+    └──📄tsconfig.json
 
------------------
+# Rotas da API
+
+*Documentação de rotas com Swagger - Acessando a rota*
 
 
+> *Rota de documentação de end points* http://localhost:3000/docs/ 
+
+
+### License MIT
+--------
 LICENSE MIT: [LICENSE.md](./LICENSE.md)
 
 -----------------
