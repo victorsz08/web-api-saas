@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient, Status } from "@prisma/client";
+import { Prisma, PrismaClient, Status  } from "@prisma/client";
 import { ContractEntity, StatusType } from "../../domain/entities/contract.entity";
 import { ContractGateway, ListContractDto, QueryListContract } from "../../domain/gateway/contract.gateway";
 import { ExceptionError } from "../../package/exception-error/exception.error";
