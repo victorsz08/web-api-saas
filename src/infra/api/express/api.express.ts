@@ -12,8 +12,10 @@ export class ApiExpress implements Api {
     private constructor(routes: Route[]) {
         this.app = express();
         this.app.use(express.json());
-        this.app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs))
         this.addRoutes(routes);
+        
+        this.app.use("/api-docs/", swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+        
         this.app.use(helmet());
         this.app.use(cors({
             origin: "*",

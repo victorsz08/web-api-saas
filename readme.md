@@ -17,7 +17,7 @@
 git clone (https://github.com/victorsz08/web-api-saas)
 ```
 
-### Instalação
+## Instalação
 ```sh
 # Instalar todas as dependências do projeto
 npm install 
@@ -52,8 +52,10 @@ npm run start
     ├──📂dist
     ├──📂node_modules
     ├──📂src 
+    │   ├──📂docs
+    │   │   └──📄swagger.json
     │   ├──📂domain
-    │   │   ├──📂enities
+    │   │   ├──📂entities
     │   │   │   └──📄**.entity.ts
     │   │   │ 
     │   │   └──📂gateway
@@ -88,12 +90,24 @@ npm run start
     ├──📄README.md
     └──📄tsconfig.json
 ```
+# Variáveis de ambiente
+*Variaveis .env*
+
+```
+# Conexão com banco de dados PostgresSQL 
+DATABASE_URL=******
+
+# Chave MD5 secret para criação de tokens JWT
+SECRET=********
+```
+
+
 # Rotas da API
 
 *Documentação de rotas com Swagger - Acessando a rota*
 
 
-> *Rota de documentação de end points* http://localhost:3000/docs/ 
+> *Rota de documentação em ambiente de desenvolvimento de endpoints* http://localhost:3000/api-docs/ 
 
 
 ## License MIT
