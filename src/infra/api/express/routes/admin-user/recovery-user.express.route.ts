@@ -1,33 +1,32 @@
 import { Request, Response } from "express";
 import { HttpMethod, Route } from "../route.express";
-import { UpdateRoleInputDto, UpdateRoleOutputDto, UpdateRoleUsecase } from "../../../../../usecase/role/update.usecase";
+import { RecoveryUserInputDto, RecoveryUserOutputDto, RecoveryUserUsecase } from "../../../../../usecase/admin/recovery.usecase";
 import { auth } from "../../../../../middlewares/auth.middleware";
 
 
 
-export type UpdateRoleResponseDto = {
-    id: string;
+export type RecoveryUserResponseDto = {
+    newPassword: string;
 };
 
-export class UpdateRoleRoute implements Route {
+export class RecoveryUserRoute implements Route {
     
     private constructor(
         private readonly path: string,
         private readonly method: HttpMethod,
-        private readonly updateRoleService: UpdateRoleUsecase
+        private readonly recoveryUserService: RecoveryUserUsecase
     ) {};
 
-    public static build(updateRoleService: UpdateRoleUsecase) {
-        return new UpdateRoleRoute("/admin/roles/:id", HttpMethod.PUT, updateRoleService);
+    public static build(recoveryUserService: RecoveryUserUsecase) {
+        return new RecoveryUserRoute("/admin/user/recovery/:id", HttpMethod.POST, recoveryUserService);
     };
     
     public getHandler(): (request: Request, response: Response) => Promise<any> {
         return async (request: Request, response: Response) => {
             const { id } = request.params;
-            const { name, description } = request.body;
-            const input: UpdateRoleInputDto = { id, name, description };
+            const input: RecoveryUserInputDto = { id };
 
-            const data = await this.updateRoleService.execute(input);
+            const data = await this.recoveryUserService.execute(input);
             const responseBody = this.present(data);
 
             return response.status(200).json(responseBody).send();
@@ -43,12 +42,12 @@ export class UpdateRoleRoute implements Route {
     };
 
     public getMiddleware?(): Array<any> {
-        return [ auth() ]
+        return [ auth() ];
     };
 
-    private present(data: UpdateRoleOutputDto): UpdateRoleResponseDto {
+    private present(data: RecoveryUserOutputDto): RecoveryUserResponseDto {
         return {
-            id: data.id
+            newPassword: data.newPassword
         };
     };
-}; 
+};

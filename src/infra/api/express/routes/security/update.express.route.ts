@@ -13,7 +13,7 @@ export class UpdateSecurityRoute implements Route {
     ) {};
 
     public static build(updateSecurityService: UpdateSecurityUsecase) {
-        return new UpdateSecurityRoute("/security/:userId", HttpMethod.PUT, updateSecurityService);
+        return new UpdateSecurityRoute("/admin/security/:userId", HttpMethod.PUT, updateSecurityService);
     };
     
     public getHandler(): (request: Request, response: Response) => Promise<any> {

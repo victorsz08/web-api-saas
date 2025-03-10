@@ -1,31 +1,29 @@
 import { Request, Response } from "express";
 import { HttpMethod, Route } from "../route.express";
-import { SaveSecurityInputDto, SaveSecurityUsecase } from "../../../../../usecase/security/save.usecase";
+import { DeleteUserInputDto, DeleteUserUsecase } from "../../../../../usecase/admin/delete.usecase";
 import { auth } from "../../../../../middlewares/auth.middleware";
 
 
 
-
-
-export class SaveSecurityRoute implements Route {
+export class DeleteUserRoute implements Route {
     
     private constructor(
         private readonly path: string,
         private readonly method: HttpMethod,
-        private readonly saveSecurityService: SaveSecurityUsecase
+        private readonly deleteUserService: DeleteUserUsecase
     ) {};
 
-    public static build(saveSecurityService: SaveSecurityUsecase) {
-        return new SaveSecurityRoute("/admin/security", HttpMethod.POST, saveSecurityService);
+    public static build(deleteUserService: DeleteUserUsecase) {
+        return new DeleteUserRoute("/admin/user/:id", HttpMethod.DELETE, deleteUserService); 
     };
     
     public getHandler(): (request: Request, response: Response) => Promise<any> {
         return async (request: Request, response: Response) => {
-            const { userId, roleId } = request.body;
-            const input: SaveSecurityInputDto = { userId, roleId };
+            const { id } = request.params;
+            const input: DeleteUserInputDto = { id };
 
-            await this.saveSecurityService.execute(input);
-            return response.status(201).send();
+            await this.deleteUserService.execute(input);
+            return response.status(200).send();
         };
     };
 
@@ -38,6 +36,6 @@ export class SaveSecurityRoute implements Route {
     };
 
     public getMiddleware?(): Array<any> {
-        return [ auth() ];
-    };
-};
+        return [ auth() ]
+    }
+}

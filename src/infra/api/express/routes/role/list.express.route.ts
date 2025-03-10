@@ -24,7 +24,7 @@ export class ListRoleRoute implements Route {
     ) {};
 
     public static build(listRoleService: ListRoleUsecase) {
-        return new ListRoleRoute("/roles", HttpMethod.GET, listRoleService);
+        return new ListRoleRoute("/admin/roles", HttpMethod.GET, listRoleService);
     };
     
     public getHandler(): (request: Request, response: Response) => Promise<any> {

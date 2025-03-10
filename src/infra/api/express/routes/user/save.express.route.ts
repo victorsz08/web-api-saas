@@ -20,7 +20,7 @@ export class SaveUserRoute implements Route {
     ) {};
 
     public static build(saveUserService: SaveUserUsecase) {
-        return new SaveUserRoute("/users", HttpMethod.POST, saveUserService);
+        return new SaveUserRoute("/admin/users", HttpMethod.POST, saveUserService);
     };
     
     public getHandler(): (request: Request, response: Response) => Promise<any> {
@@ -43,9 +43,9 @@ export class SaveUserRoute implements Route {
         return this.method;
     };
 
-    public getMiddleware?(): Array<any> {
-        return [ ]
-    };
+    public getMiddleware(): Array<any> {
+        return [ auth() ]
+    }
 
     private present(data: SaveUserOutputDto): SaveUserResponseDto {
         return {

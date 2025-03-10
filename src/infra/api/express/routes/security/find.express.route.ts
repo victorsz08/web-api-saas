@@ -25,7 +25,7 @@ export class FindSecurityRoute implements Route {
     ) {};
 
     public static build(findSecurityService: FindSecurityUsecase) {
-        return new FindSecurityRoute("/security/:userId", HttpMethod.GET, findSecurityService);
+        return new FindSecurityRoute("/admin/security/:userId", HttpMethod.GET, findSecurityService);
     };
 
     public getHandler(): (request: Request, response: Response) => Promise<any> {
