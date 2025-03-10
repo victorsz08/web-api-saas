@@ -18,7 +18,7 @@ export class UpdateRoleRoute implements Route {
     ) {};
 
     public static build(updateRoleService: UpdateRoleUsecase) {
-        return new UpdateRoleRoute("/roles/:id", HttpMethod.PUT, updateRoleService);
+        return new UpdateRoleRoute("/admin/roles/:id", HttpMethod.PUT, updateRoleService);
     };
     
     public getHandler(): (request: Request, response: Response) => Promise<any> {

@@ -19,7 +19,7 @@ export class SaveRoleRoute implements Route {
     ) {};
 
     public static build(saveRoleService: SaveRoleUsecase) {
-        return new SaveRoleRoute("/roles", HttpMethod.POST, saveRoleService);
+        return new SaveRoleRoute("/admin/roles", HttpMethod.POST, saveRoleService);
     };
     
     public getHandler(): (request: Request, response: Response) => Promise<any> {

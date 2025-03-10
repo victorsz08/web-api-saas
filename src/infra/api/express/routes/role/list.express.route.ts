@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { HttpMethod, Route } from "../route.express";
 import { ListRoleInputDto, ListRoleOutputDto, ListRoleUsecase } from "../../../../../usecase/role/list.usecase";
 import { auth } from "../../../../../middlewares/auth.middleware";
-import { accessControll, RoleType } from "../../../../../middlewares/access-controll.middleware";
 
 
 
@@ -25,7 +24,7 @@ export class ListRoleRoute implements Route {
     ) {};
 
     public static build(listRoleService: ListRoleUsecase) {
-        return new ListRoleRoute("/roles", HttpMethod.GET, listRoleService);
+        return new ListRoleRoute("/admin/roles", HttpMethod.GET, listRoleService);
     };
     
     public getHandler(): (request: Request, response: Response) => Promise<any> {
@@ -49,7 +48,7 @@ export class ListRoleRoute implements Route {
     };
 
     public getMiddleware?(): Array<any> {
-        return [ auth(), accessControll(RoleType.ADMIN) ];
+        return [ auth() ];
     };
 
     private present(data: ListRoleOutputDto): ListRoleResponseDto {

@@ -16,7 +16,7 @@ export class SaveSecurityRoute implements Route {
     ) {};
 
     public static build(saveSecurityService: SaveSecurityUsecase) {
-        return new SaveSecurityRoute("/security", HttpMethod.POST, saveSecurityService);
+        return new SaveSecurityRoute("/admin/security", HttpMethod.POST, saveSecurityService);
     };
     
     public getHandler(): (request: Request, response: Response) => Promise<any> {

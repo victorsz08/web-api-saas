@@ -1,0 +1,904 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Web Api Restfull - Notetools",
+        "description": "A WebApi Notetools, tem como objetivo melhorar metas e gestão de contratos realizados, para que possa acompanhar desde sua criação a conclusão de intalação do serviço",
+        "contact": {
+            "email": "victorszdeveloper@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/",
+            "description": "Api Teste"
+        }
+    ],
+    "paths": {
+        "/users": {
+            "post": {
+                "summary": "Criação de usuário",
+                "tags": ["Usuários"],
+                "security": [{ "bearerAuth": [] }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Username indisponível"
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Listar todos os usuários",
+                "tags": ["Usuários"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Busca os usuários pelo username, firstName e lastName",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "users": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/User"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum usuário encontrado"
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "summary": "Buscar usuário pelo id",
+                "tags": ["Usuários"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "A busca é feito por id único do usuário",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado com este id"
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Atualizar os dados do usuário",
+                "tags": ["Usuários"],
+                "security": [{ "BearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "A busca é feito por id único do usuário",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            },
+                            "examples": {
+                                "user": {
+                                    "value": {
+                                        "username": "walter.white",
+                                        "firstName": "Walter",
+                                        "lastName": "White"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum usuário encontrado"
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    },
+                    "409": {
+                        "description": "Username indisponível"
+                    }
+                }
+            }
+        },
+        "/contracts": {
+            "post": {
+                "summary": "Criação de registro de contratos",
+                "tags": ["Contracts"],
+                "security": [{ "bearerAuth": [] }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Contract"
+                            },
+                            "examples": {
+                                "contract": {
+                                    "value": {
+                                        "number": "0000000",
+                                        "local": "São Paulo / SP",
+                                        "scheduleDate": "2025-01-01",
+                                        "scheduleTime": "08h as 12h",
+                                        "price": "99.99",
+                                        "contact": "(88) 88888-8888",
+                                        "userId": "000001"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Busca de todos contratos relacionados a um usuário",
+                "security": [{ "bearerAuth": [] }],
+                "tags": ["Contracts"],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "Busca os contratos por esse usuário",
+                        "required": true
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Paginação dos resultados",
+                        "required": true
+                    },
+                    {
+                        "name": "createdAtDateIn",
+                        "in": "query",
+                        "description": "Filtro de busca com intervalos da data de criação do contrato",
+                        "required": false
+                    },
+                    {
+                        "name": "createdAtDateOut",
+                        "in": "query",
+                        "description": "Filtro de busca com intervalos da data de criação do contrato",
+                        "required": false
+                    },
+                    {
+                        "name": "scheduleDateIn",
+                        "in": "query",
+                        "description": "Filtro de busca com intervalos da data de agendamento do contrato",
+                        "required": false
+                    },
+                    {
+                        "name": "scheduleDateOut",
+                        "in": "query",
+                        "description": "Filtro de busca feita com intervalos da data de agendamento do contrato",
+                        "required": false
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filtro de busca pelo status do contrato",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "contracts": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Contract"
+                                            }
+                                        },
+                                        "totalItems": {
+                                            "type": "integer"
+                                        },
+                                        "totalPages": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nenhum contrato encontrado com esses parametros"
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    }
+                }
+            }
+        },
+        "/contracts/{id}": {
+            "get": {
+                "summary": "Busca feita para encontrar contrato por id",
+                "tags": ["Contracts"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do contrato",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Contract"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Contrato não encontrado"
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Atualizar dados do contrato",
+                "tags": ["Contracts"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do contrato",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "number": {
+                                        "type": "number"
+                                    },
+                                    "local": {
+                                        "type": "string"
+                                    },
+                                    "contact": {
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "items": {
+                                            "id": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    },
+                    "404": {
+                        "description": "Contrato não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Excluir registro de contrato",
+                "tags": ["Contracts"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do contrato",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "Contrato não encontrado"
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    }
+                }
+            }
+        },
+        "/contracts/status/{id}": {
+            "put": {
+                "summary": "Alterar status do contrato",
+                "tags": ["Contracts"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do contrato",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "status": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Contrato não encontrado"
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    }
+                }
+            }
+        },
+        "/contracts/schedule/{id}": {
+            "put": {
+                "summary": "Alterar agendamento do contrato",
+                "tags": ["Contracts"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do contrato",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "scheduleDate": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "scheduleTime": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Contrato não encontrado"
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    }
+                }
+            }
+        },
+        "/notes": {
+            "post": {
+                "summary": "Criar nova nota",
+                "tags": ["Notes"],
+                "security": [{ "bearerAuth": [] }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "userId": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Listar todas as notas de um usuário",
+                "tags": ["Notes"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "Id do usuário",
+                        "required": true
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Paginação da requisição",
+                        "required": true
+                    },
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "description": "Filtro de busca com intervalos da data de criação da nota",
+                        "required": false
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "description": "Filtro de busca com intervalos da data de criação da nota",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "notes": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Note"
+                                            }
+                                        },
+                                        "totalItems": {
+                                            "type": "number"
+                                        },
+                                        "totalPages": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    },
+                    "404": {
+                        "description": "Nenhuma nota encontrada com esses parametros"
+                    }
+                }
+            }
+        },
+        "/notes/{id}": {
+            "get": {
+                "summary": "Buscar nota por id",
+                "tags": ["Notes"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id da nota",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Note"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nota não encontrada"
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Atualizar dados da nota",
+                "tags": ["Notes"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id da nota",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "content": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nota não encontrada"
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "summary": "Autenticação de usuário",
+                "tags": ["Autenticação"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Username ou senha incorretos"
+                    }
+                }
+            }
+        },
+        "/auth/session": {
+            "get": {
+                "summary": "Buscar dados de usuário pelo session",
+                "tags": ["Autenticação"],
+                "security": [{ "bearerAuth": [] }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "username": {
+                                            "type": "string"
+                                        },
+                                        "firstName": {
+                                            "type": "string"
+                                        },
+                                        "lastName": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado"
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "Contract": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "number": {
+                        "type": "integer"
+                    },
+                    "local": {
+                        "type": "string"
+                    },
+                    "scheduleDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "scheduleTime": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "contact": {
+                        "type": "string"
+                    },
+                    "userId": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "Note": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "userId": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

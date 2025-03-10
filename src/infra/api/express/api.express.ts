@@ -7,6 +7,7 @@ import cors from "cors";
 import swaggerUi from "swagger-ui-express"
 import swaggerDocs from "../../../docs/swagger.json";
 import { apiError } from "../../../middlewares/api-error.middleware";
+import { accessControll } from "../../../middlewares/access-controll.middleware";
 
 export class ApiExpress implements Api {
     private app: Express
@@ -17,6 +18,7 @@ export class ApiExpress implements Api {
         
         this.addRoutes(routes);
         this.app.use(apiError);
+        this.app.use(accessControll)
 
         this.app.use("/api-docs/", swaggerUi.serve, swaggerUi.setup(swaggerDocs))
         

@@ -24,7 +24,7 @@ export class FindRoleRoute implements Route {
     ) {};
 
     public static build(findRoleService: FindRoleUsecase) {
-        return new FindRoleRoute("/roles/:id", HttpMethod.GET, findRoleService);
+        return new FindRoleRoute("/admin/roles/:id", HttpMethod.GET, findRoleService);
     };
     
     public getHandler(): (request: Request, response: Response) => Promise<any> {
