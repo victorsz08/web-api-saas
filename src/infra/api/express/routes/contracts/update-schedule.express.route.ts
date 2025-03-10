@@ -29,18 +29,10 @@ export class UpdateScheduleRoute implements Route {
             const { scheduleDate, scheduleTime } = request.body as Record<string, any>;
             const input: UpdateScheduleInputDto = { id, scheduleDate, scheduleTime };
 
-            try {
-                const data = await this.updateScheduleService.execute(input);
-                const responseBody = this.present(data);
+            const data = await this.updateScheduleService.execute(input);
+            const responseBody = this.present(data);
 
-                return response.status(200).json(responseBody).send();
-            } catch (error) {
-                if(error instanceof ExceptionError) {
-                    return response.status(error.statusCode).json({ status: error.statusCode, error: error.message }).send();
-                };
-
-                return response.status(500).json({ status: 500, error: "Server internal error" }).send();
-            }
+            return response.status(200).json(responseBody).send();
         }
     };
 

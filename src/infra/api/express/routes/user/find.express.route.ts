@@ -31,18 +31,10 @@ export class FindUserRoute implements Route {
             const { id } = request.params;
             const input: FindUserInputDto = { id };
 
-            try {
-                const data = await this.findUserService.execute(input);
-                const responseBody = this.present(data);
+            const data = await this.findUserService.execute(input);
+            const responseBody = this.present(data);
 
-                return response.status(200).json(responseBody).send();
-            } catch (error) {
-                if(error instanceof ExceptionError) {
-                    return response.status(error.statusCode).json({ status: error.statusCode, error: error.message }).send();
-                };
-
-                return response.status(500).json({ status: 500, error: "Server internal error" }).send();
-            };
+            return response.status(200).json(responseBody).send();
         };
     };
 

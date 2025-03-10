@@ -29,18 +29,10 @@ export class AuthSessionRoute implements Route {
             const token = request.headers.authorization as any;
             const input: AuthSessionInputDto = { token };
 
-            try {
-                const data = await this.authSessionService.execute(input);
-                const responseBody = this.present(data);
+            const data = await this.authSessionService.execute(input);
+            const responseBody = this.present(data);
 
-                return response.status(200).json(responseBody).send();
-            } catch (error) {
-                if(error instanceof ExceptionError) {
-                    return response.status(error.statusCode).json({ status: error.statusCode, error: error.message }).send();
-                };
-
-                return response.status(500).json({ status: 500, error: "server internal error" }).send();
-            }
+            return response.status(200).json(responseBody).send();
         }
     };
 

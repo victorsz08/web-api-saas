@@ -34,18 +34,10 @@ export class ListUserRoute implements Route {
             const { search } = request.query as any;
             const input: ListUserInputDto = { search };
 
-            try {
-                const data = await this.listUserService.execute(input);
-                const responseBody = this.present(data);
+            const data = await this.listUserService.execute(input);
+            const responseBody = this.present(data);
 
-                return response.status(200).json(responseBody).send();
-            } catch (error) {
-                if(error instanceof ExceptionError) {
-                    return response.status(error.statusCode).json({ status: error.statusCode, error: error.message }).send();
-                };
-
-                return response.status(500).json({ status: 500, error: "Server internal error" }).send();
-            };
+            return response.status(200).json(responseBody).send();
         };
     };
 

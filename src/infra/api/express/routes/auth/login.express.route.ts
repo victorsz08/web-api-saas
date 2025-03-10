@@ -25,19 +25,11 @@ export class AuthLoginRoute implements Route {
         return async (request: Request, response: Response) => {
             const { username, password } = request.body;
             const input: AuthLoginInputDto = { username, password };
-
-            try {
-                const data = await this.authLoginService.execute(input);
-                const responseBody = this.present(data);
-                
-                return response.status(200).json(responseBody).send();
-            } catch (error) {
-                if(error instanceof ExceptionError) {
-                    return response.status(error.statusCode).json({ status: error.statusCode, error: error.message }).send();
-                };
-
-                return response.status(500).json({ status: 500, error: "server internal error" }).send();
-            };
+            
+            const data = await this.authLoginService.execute(input);
+            const responseBody = this.present(data);
+            
+            return response.status(200).json(responseBody).send();
         };
     };
 
