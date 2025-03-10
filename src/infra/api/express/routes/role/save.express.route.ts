@@ -1,33 +1,33 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { HttpMethod, Route } from "../route.express";
-import { SaveNoteInputDto, SaveNoteOutputDto, SaveNoteUsecase } from "../../../../../usecase/note/save.usecase";
+import { SaveRoleInputDto, SaveRoleOutputDto, SaveRoleUsecase } from "../../../../../usecase/role/save.usecase";
 import { ExceptionError } from "../../../../../package/exception-error/exception.error";
 import { auth } from "../../../../../middlewares/auth.middleware";
 
 
-export type SaveNoteResponseDto = {
+
+export type SaveRoleResponseDto = {
     id: string;
 };
 
-
-export class SaveNoteRoute implements Route {
+export class SaveRoleRoute implements Route {
     
     private constructor(
         private readonly path: string,
         private readonly method: HttpMethod,
-        private readonly saveNoteService: SaveNoteUsecase
+        private readonly saveRoleService: SaveRoleUsecase
     ) {};
 
-    public static build(saveNoteService: SaveNoteUsecase) {
-        return new SaveNoteRoute("/notes", HttpMethod.POST, saveNoteService);
+    public static build(saveRoleService: SaveRoleUsecase) {
+        return new SaveRoleRoute("/roles", HttpMethod.POST, saveRoleService);
     };
-
+    
     public getHandler(): (request: Request, response: Response) => Promise<any> {
         return async (request: Request, response: Response) => {
-            const { content, userId } = request.body;
-            const input: SaveNoteInputDto = { content, userId };
+            const { name, description } = request.body;
+            const input: SaveRoleInputDto = { name, description };
 
-            const data = await this.saveNoteService.execute(input);
+            const data = await this.saveRoleService.execute(input);
             const responseBody = this.present(data);
 
             return response.status(201).json(responseBody).send();
@@ -46,7 +46,7 @@ export class SaveNoteRoute implements Route {
         return [ auth() ]
     };
 
-    private present(data: SaveNoteOutputDto): SaveNoteResponseDto {
+    private present(data: SaveRoleOutputDto): SaveRoleResponseDto {
         return {
             id: data.id
         };

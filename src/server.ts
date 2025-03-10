@@ -3,9 +3,10 @@ import { authRoutes } from "./infra/api/express/routes/auth/auth.routes";
 import { contractRoutes } from "./infra/api/express/routes/contracts/contract.express.route";
 import { noteRoutes } from "./infra/api/express/routes/note/note.express.routes";
 import { reportRoutes } from "./infra/api/express/routes/report/report.routes";
+import { roleRoutes } from "./infra/api/express/routes/role/routes.express";
 import { userRoutes } from "./infra/api/express/routes/user/user.route"
 
-const routes = [...userRoutes, ...contractRoutes, ...noteRoutes, ...authRoutes, ...reportRoutes ];
+const routes = [...userRoutes, ...contractRoutes, ...noteRoutes, ...authRoutes, ...reportRoutes, ...roleRoutes ];
 
 export function server() {
     const api = ApiExpress.build(routes);

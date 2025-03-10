@@ -1,35 +1,33 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { HttpMethod, Route } from "../route.express";
-import { UpdateUserInputDto, UpdateUserOutputDto, UpdateUserUsecase } from "../../../../../usecase/user/update.usecase";
-import { ExceptionError } from "../../../../../package/exception-error/exception.error";
+import { UpdateRoleInputDto, UpdateRoleOutputDto, UpdateRoleUsecase } from "../../../../../usecase/role/update.usecase";
 import { auth } from "../../../../../middlewares/auth.middleware";
 
 
 
-export type UpdateUserResponseDto = {
+export type UpdateRoleResponseDto = {
     id: string;
 };
 
-
-export class UpdateUserRoute implements Route {
+export class UpdateRoleRoute implements Route {
     
     private constructor(
         private readonly path: string,
         private readonly method: HttpMethod,
-        private readonly updateUserService: UpdateUserUsecase
+        private readonly updateRoleService: UpdateRoleUsecase
     ) {};
 
-    public static build(updateUserService: UpdateUserUsecase) {
-        return new UpdateUserRoute("/users/:id", HttpMethod.PUT, updateUserService);
+    public static build(updateRoleService: UpdateRoleUsecase) {
+        return new UpdateRoleRoute("/roles/:id", HttpMethod.PUT, updateRoleService);
     };
     
     public getHandler(): (request: Request, response: Response) => Promise<any> {
         return async (request: Request, response: Response) => {
             const { id } = request.params;
-            const { username, firstName, lastName } = request.body;
-            const input: UpdateUserInputDto = { id, username, firstName, lastName };
-            
-            const data = await this.updateUserService.execute(input);
+            const { name, description } = request.body;
+            const input: UpdateRoleInputDto = { id, name, description };
+
+            const data = await this.updateRoleService.execute(input);
             const responseBody = this.present(data);
 
             return response.status(200).json(responseBody).send();
@@ -48,9 +46,9 @@ export class UpdateUserRoute implements Route {
         return [ auth() ]
     };
 
-    private present(data: UpdateUserOutputDto): UpdateUserResponseDto {
+    private present(data: UpdateRoleOutputDto): UpdateRoleResponseDto {
         return {
             id: data.id
         };
     };
-};
+}; 

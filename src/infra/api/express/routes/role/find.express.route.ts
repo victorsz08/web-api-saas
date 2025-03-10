@@ -1,41 +1,42 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { HttpMethod, Route } from "../route.express";
-import { FindNoteInputDto, FindNoteOutputDto, FindNoteUsecase } from "../../../../../usecase/note/find.usecase";
+import { FindRoleInputDto, FindRoleOutputDto, FindRoleUsecase } from "../../../../../usecase/role/find.usecase";
 import { ExceptionError } from "../../../../../package/exception-error/exception.error";
 import { auth } from "../../../../../middlewares/auth.middleware";
 
 
 
-export type FindNoteResponseDto = {
+
+export type FindRoleResponseDto = {
     id: string;
-    content: string;
-    userId: string;
+    name: string;
+    description: string;
     createdAt: Date;
     updatedAt: Date;
 };
 
-export class FindNoteRoute implements Route {
+export class FindRoleRoute implements Route {
     
     private constructor(
         private readonly path: string,
         private readonly method: HttpMethod,
-        private readonly findNoteService: FindNoteUsecase
+        private readonly findRoleService: FindRoleUsecase
     ) {};
 
-    public static build(findNoteService: FindNoteUsecase) {
-        return new FindNoteRoute("/notes/:id", HttpMethod.GET, findNoteService);
+    public static build(findRoleService: FindRoleUsecase) {
+        return new FindRoleRoute("/roles/:id", HttpMethod.GET, findRoleService);
     };
     
     public getHandler(): (request: Request, response: Response) => Promise<any> {
         return async (request: Request, response: Response) => {
             const { id } = request.params;
-            const input: FindNoteInputDto = { id };
+            const input: FindRoleInputDto = { id };
 
-            const data = await this.findNoteService.execute(input);
+            const data = await this.findRoleService.execute(input);
             const responseBody = this.present(data);
 
             return response.status(200).json(responseBody).send();
-        };
+        }
     };
 
     public getPath(): string {
@@ -45,16 +46,16 @@ export class FindNoteRoute implements Route {
     public getMethod(): HttpMethod {
         return this.method;
     };
-    
+
     public getMiddleware?(): Array<any> {
-        return [ auth() ]
+        return [ auth() ];
     };
 
-    private present(data: FindNoteOutputDto): FindNoteResponseDto {
+    private present(data: FindRoleOutputDto): FindRoleResponseDto {
         return {
             id: data.id,
-            content: data.content,
-            userId: data.userId,
+            name: data.name,
+            description: data.description,
             createdAt: data.createdAt,
             updatedAt: data.updatedAt
         };

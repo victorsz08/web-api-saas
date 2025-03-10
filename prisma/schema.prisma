@@ -34,6 +34,7 @@ model User {
   updatedAt DateTime   @map("updatedAt")
   Contract  Contract[]
   Notes     Notes[]
+  userRoles UserRoles[]
 }
 
 model Notes {
@@ -43,4 +44,20 @@ model Notes {
   createdAt DateTime @map("createdAt")
   updatedAt DateTime @map("updatedAt")
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Role {
+  id String @id
+  name String
+  description String
+  createdAt DateTime
+  updatedAt DateTime
+  userRoles UserRoles[]
+}
+
+model UserRoles {
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  roleId String @unique
 }

@@ -1,3 +1,4 @@
+import "express-async-errors"
 import { Api } from "../api";
 import express, { Express } from "express";
 import { Route } from "./routes/route.express";
@@ -5,6 +6,7 @@ import helmet from "helmet";
 import cors from "cors";
 import swaggerUi from "swagger-ui-express"
 import swaggerDocs from "../../../docs/swagger.json";
+import { apiError } from "../../../middlewares/api-error.middleware";
 
 export class ApiExpress implements Api {
     private app: Express
@@ -12,8 +14,10 @@ export class ApiExpress implements Api {
     private constructor(routes: Route[]) {
         this.app = express();
         this.app.use(express.json());
-        this.addRoutes(routes);
         
+        this.addRoutes(routes);
+        this.app.use(apiError);
+
         this.app.use("/api-docs/", swaggerUi.serve, swaggerUi.setup(swaggerDocs))
         
         this.app.use(helmet());
@@ -23,7 +27,7 @@ export class ApiExpress implements Api {
             methods: ["GET, POST, PUT, DELETE"]
         }));
     };
-    
+
     public static build(routes: Route[]) {
         return new ApiExpress(routes);
     };
@@ -31,8 +35,7 @@ export class ApiExpress implements Api {
     
     public start(port: number): void {
         this.app.listen(port, () => {
-            console.log("server http running" );
-            this.listRoutes();
+            console.log("server http running");
         })
     };
 
@@ -45,18 +48,5 @@ export class ApiExpress implements Api {
 
             this.app[method](path, ...middlewares, handler);
         });
-    };
-
-    private listRoutes() {
-        const routes = this.app._router.stack
-        .filter((route: any) => route.route)
-        .map((route: any) => {
-            return {
-                path: route.route.path,
-                method: route.route.stack[0].method
-            }
-        });
-
-        console.log(routes);
     };
 };

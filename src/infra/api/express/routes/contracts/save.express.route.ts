@@ -28,18 +28,10 @@ export class SaveContractRoute implements Route {
             const { number, local, scheduleDate, scheduleTime, contact, price, userId } = request.body;
             const input: SaveContractInputDto = { number, local, scheduleDate, scheduleTime, contact, price, userId };
 
-            try {
-                const data = await this.saveContractService.execute(input);
-                const responseBody = this.present(data);
+            const data = await this.saveContractService.execute(input);
+            const responseBody = this.present(data);
 
-                return response.status(201).json(responseBody).send();
-            } catch (error) {
-                if(error instanceof ExceptionError) {
-                    return response.status(error.statusCode).json({ status: error.statusCode, error: error.message }).send();
-                };
-
-                return response.status(500).json({ status: 500, error: "Server internal error" }).send();
-            }
+            return response.status(201).json(responseBody).send();
         }
     };
 
