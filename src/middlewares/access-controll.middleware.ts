@@ -4,13 +4,10 @@ import { decode, verify } from "jsonwebtoken";
 import { UserEntity } from "../domain/entities/user.entity";
 import { prisma } from "../package/prisma/prisma";
 
-export function accessControll(): any {
-    return async (request: Request, response: Response, nextFunction: NextFunction) => {
+export function accessControll(): (request: Request, response: Response, nextFunction: NextFunction) => Promise<any> {
+    return async (request: Request, response: Response, nextFunction: NextFunction) =>  {
         const token = request.headers.authorization;
         const _dirname = request.path;
-        const startDirname: string = _dirname.split("/").filter((dir) => dir !== "")[0];
-
-        console.log(startDirname);
 
         if(!token) {
             return response.status(401).json({ status: 401, error: "Unauthorized" }).send();

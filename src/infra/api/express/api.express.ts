@@ -16,9 +16,9 @@ export class ApiExpress implements Api {
         this.app = express();
         this.app.use(express.json());
         
+        this.app.use(accessControll());
         this.addRoutes(routes);
         this.app.use(apiError);
-        this.app.use(accessControll)
 
         this.app.use("/api-docs/", swaggerUi.serve, swaggerUi.setup(swaggerDocs))
         
