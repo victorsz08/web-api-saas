@@ -64,7 +64,7 @@ npm run start
 >O middleware auth verifica a presença e a validade do token JWT nas requisições, garantindo que apenas usuários autenticados acessem as rotas protegidas.
 
 - Middleware de Controle de Acesso
-  >
+>O middleware accessControll tem a função de garantir que apenas usuários autenticados e com as permissões corretas possam acessar determinadas rotas da API.
 
 # Estrutura de pastas
 
@@ -149,6 +149,6 @@ SECRET=sua_chave_secreta
 
 ## License MIT
 
-LICENSE MIT: [LICENSE.md](./LICENSE.md)
+[LICENSE.md](./LICENSE.md)
 
 -----------------
