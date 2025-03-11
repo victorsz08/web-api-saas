@@ -31,6 +31,8 @@ export class ListRoleRoute implements Route {
         return async (request: Request, response: Response) => {
             const { search } = request.query as Record<string, string>;
             const input: ListRoleInputDto = { search };
+            const _dirname = request.path;
+            console.log(_dirname.startsWith("/admin/"))
 
             const data = await this.listRoleService.execute(input);
             const responseBody = this.present(data);
