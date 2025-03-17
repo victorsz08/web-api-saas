@@ -32,7 +32,7 @@ export class AuthSessionRoute implements Route {
             const data = await this.authSessionService.execute(input);
             const responseBody = this.present(data);
 
-            return response.status(200).json(responseBody).send();
+            return response.status(200).json(responseBody);
         }
     };
 

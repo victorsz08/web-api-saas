@@ -7,27 +7,23 @@ import cors from "cors";
 import swaggerUi from "swagger-ui-express"
 import swaggerDocs from "../../../docs/swagger.json";
 import { apiError } from "../../../middlewares/api-error.middleware";
-import { accessControll } from "../../../middlewares/access-controll.middleware";
 
 export class ApiExpress implements Api {
     private app: Express
 
     private constructor(routes: Route[]) {
         this.app = express();
-        this.app.use(express.json());
-        
-        this.app.use(accessControll());
+        this.app.use(express.json());      
+        this.app.use(cors({
+            allowedHeaders: ["Content-Type", "Authorization"],
+            methods: ["GET, POST, PUT, DELETE"],
+
+        }));
+
         this.addRoutes(routes);
         this.app.use(apiError);
 
         this.app.use("/api-docs/", swaggerUi.serve, swaggerUi.setup(swaggerDocs))
-        
-        this.app.use(helmet());
-        this.app.use(cors({
-            origin: "*",
-            allowedHeaders: "application/json",
-            methods: ["GET, POST, PUT, DELETE"]
-        }));
     };
 
     public static build(routes: Route[]) {

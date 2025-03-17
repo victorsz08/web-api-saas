@@ -6,15 +6,12 @@ API Rest desenvolvida com **Node.js**, **TypeScript** e **Express**, destinada a
 ##### Desenvolvido por **Victor Siqueira** 💡 | [Meu Linkedin](https://www.linkedin.com/in/victorsiqueiradeveloper) 📥
 
 
-## Requisitos de instalação 📄
-- [Node.js](https://nodejs.org/pt) (>=20.17)
-- [Typescript](https://www.typescriptlang.org/download/) (>=5.7) 
-
 ## Índice
+
 - [**API Restfull Node.js, Typescript, Express e Postgrees** 🚀](#api-restfull-nodejs-typescript-express-e-postgrees-)
         - [Desenvolvido por **Victor Siqueira** 💡 | Meu Linkedin 📥](#desenvolvido-por-victor-siqueira---meu-linkedin-)
-  - [Requisitos de instalação 📄](#requisitos-de-instalação-)
   - [Índice](#índice)
+  - [Requisitos de instalação 📄](#requisitos-de-instalação-)
   - [Clonar Projeto 📑](#clonar-projeto-)
   - [Instalação](#instalação)
   - [Execução ✅](#execução-)
@@ -23,7 +20,13 @@ API Rest desenvolvida com **Node.js**, **TypeScript** e **Express**, destinada a
 - [Estrutura de pastas](#estrutura-de-pastas)
 - [Variáveis de ambiente](#variáveis-de-ambiente)
 - [Rotas da API](#rotas-da-api)
+      - [Exemplos de rotas](#exemplos-de-rotas)
   - [License MIT](#license-mit)
+  
+
+## Requisitos de instalação 📄
+- [Node.js](https://nodejs.org/pt) (>=20.17)
+- [Typescript](https://www.typescriptlang.org/download/) (>=5.7) 
 
 ## Clonar Projeto 📑
 ```sh
@@ -123,7 +126,9 @@ SECRET=sua_chave_secreta
 ```
 
 
-# Exemplo do Rotas
+# Rotas da API
+
+#### Exemplos de rotas
 
 - **Criar Usuário**
   - Método: `POST`
