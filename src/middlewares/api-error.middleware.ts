@@ -8,9 +8,9 @@ export function apiError(
         request: Request, 
         response: Response, 
         next: NextFunction
-    ): any{
+    ): void{
         const statusCode = error.statusCode ?? 500;
         const message = error.statusCode ? error.message : "Internal server error";
     
-        return response.status(statusCode).json({ status: statusCode, error: message }).send();
+        response.status(statusCode).send({ status: statusCode, error: message });
 };

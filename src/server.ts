@@ -21,7 +21,7 @@ const routes = [
 
 export function server() {
     const api = ApiExpress.build(routes);
-    const port = 3000;
+    const port = 4000;
 
     api.start(port);
 };

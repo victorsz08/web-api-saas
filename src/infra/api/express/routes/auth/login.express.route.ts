@@ -28,7 +28,7 @@ export class AuthLoginRoute implements Route {
             
             const data = await this.authLoginService.execute(input);
             const responseBody = this.present(data);
-            
+
             return response.status(200).json(responseBody).send();
         };
     };

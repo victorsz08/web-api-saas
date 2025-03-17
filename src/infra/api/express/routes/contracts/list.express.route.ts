@@ -61,7 +61,7 @@ export class ListContractRoute implements Route {
             const data = await this.listContractService.execute(input);
             const responseBody = this.present(data);
 
-            return response.status(200).json(responseBody).send();
+            return response.status(200).json(responseBody);
         };
     };
 
